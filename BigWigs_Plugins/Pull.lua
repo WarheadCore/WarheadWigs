@@ -162,6 +162,8 @@ do
 		timeLeft = timeLeft - 1
 		if timeLeft == 0 then
 			self:CancelTimer(timer)
+			TimerTracker_OnEvent(TimerTracker, "START_TIMER", 2, timeLeft, timeLeft)
+			-- TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
 			timer = nil
 			if self.db.profile.countType == "emphasized" then
 				self:SendMessage("BigWigs_EmphasizedCountdownMessage", "")
@@ -179,12 +181,15 @@ do
 			BigWigs:Print(L.pullStoppedCombat)
 			self:SendMessage("BigWigs_StopBar", self, L.pull)
 			self:SendMessage("BigWigs_StopPull", self, "COMBAT")
+			TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
 		elseif timeLeft < 11 then
 			if self.db.profile.countType == "emphasized" then
-				self:SendMessage("BigWigs_EmphasizedCountdownMessage", timeLeft)
+				-- self:SendMessage("BigWigs_EmphasizedCountdownMessage", timeLeft)
+				TimerTracker_OnEvent(TimerTracker, "START_TIMER", 2, timeLeft, timeLeft)
 			else
 				self:SendMessage("BigWigs_Message", self, nil, L.pullIn:format(timeLeft), "Attention")
 			end
+
 			local module = BigWigs:GetPlugin("Sounds", true)
 			if timeLeft < 6 and module and module.db.profile.sound then
 				self:SendMessage("BigWigs_PlayCountdownNumber", self, timeLeft, self.db.profile.voice)
@@ -206,6 +211,8 @@ do
 			timeLeft = seconds
 			if timer then
 				self:CancelTimer(timer)
+				TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
+
 				if seconds == 0 then
 					timeLeft = 0
 					BigWigs:Print(L.pullStopped:format(nick))
@@ -216,6 +223,7 @@ do
 			end
 			FlashClientIcon()
 			BigWigs:Print(L.pullStarted:format(isDBM and "DBM" or "BigWigs", nick))
+			TimerTracker_OnEvent(TimerTracker, "START_TIMER", 2, timeLeft, timeLeft)
 			timer = self:ScheduleRepeatingTimer(printPull, 1, self)
 
 			if self.db.profile.combatLog then
