@@ -14,7 +14,7 @@ mod.respawnTime = 30
 --
 
 local stage = 1
-local nextApocalypseDriveWarning = 0
+-- local nextApocalypseDriveWarning = 0
 local annihilatorHaywired = nil
 local decimationCasted = 0
 
@@ -44,7 +44,7 @@ end
 function mod:GetOptions()
 	return {
 		{246220, "TANK", "SAY"}, -- Fel Bombardment
-		240277, -- Apocalypse Drive
+		-- 240277, -- Apocalypse Drive
 		244969, -- Eradication
 		244106, -- Carnage
 		"cannon_ability", -- Cannon Assault
@@ -69,8 +69,8 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_AURA_APPLIED", "FelBombardment", 246220) -- Fel Bombardment pre-debuff
 	self:Log("SPELL_AURA_REMOVED", "FelBombardmentRemoved", 246220) -- Fel Bombardment pre-debuff
-	self:Log("SPELL_CAST_START", "ApocalypseDrive", 240277)
-	self:Log("SPELL_CAST_SUCCESS", "ApocalypseDriveSuccess", 240277)
+	-- self:Log("SPELL_CAST_START", "ApocalypseDrive", 240277)
+	-- self:Log("SPELL_CAST_SUCCESS", "ApocalypseDriveSuccess", 240277)
 	self:Death("WeaponDeath", 122778, 122773) -- Interupts Apocalypse Drive, id: Annihilator, Decimator
 	self:Log("SPELL_CAST_START", "Eradication", 244969)
 	self:Log("SPELL_CAST_SUCCESS", "Carnage", 244106)
@@ -88,7 +88,7 @@ function mod:OnEngage()
 	self:Bar("cannon_ability", 8, L.cannon_ability, L.cannon_ability_icon)
 	self:Bar(246220, 9.4) -- Fel Bombardment
 
-	nextApocalypseDriveWarning = self:Easy() and 62 or 67 -- happens at 60% (65% hc/my)
+	-- nextApocalypseDriveWarning = self:Easy() and 62 or 67 -- happens at 60% (65% hc/my)
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
 end
 
@@ -96,17 +96,17 @@ end
 -- Event Handlers
 --
 
-function mod:UNIT_HEALTH_FREQUENT(unit)
-	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
-	if hp < nextApocalypseDriveWarning then
-		self:Message(240277, "cyan", "Info", CL.soon:format(self:SpellName(240277))) -- Apocalypse Drive
-		if stage == 1 then
-			nextApocalypseDriveWarning = self:Easy() and 22 or 37 -- happens at 20% (35% hc/my)
-		else
-			self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
-		end
-	end
-end
+-- function mod:UNIT_HEALTH_FREQUENT(unit)
+-- 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+-- 	if hp < nextApocalypseDriveWarning then
+-- 		self:Message(240277, "cyan", "Info", CL.soon:format(self:SpellName(240277))) -- Apocalypse Drive
+-- 		if stage == 1 then
+-- 			nextApocalypseDriveWarning = self:Easy() and 22 or 37 -- happens at 20% (35% hc/my)
+-- 		else
+-- 			self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
+-- 		end
+-- 	end
+-- end
 
 do
 	-- Blizzard didn't give us a cast event for the haywire Annihilator.
@@ -176,6 +176,7 @@ function mod:FelBombardment(args)
 	else
 		self:PlaySound(args.spellId, "Alarm", nil, args.destName) -- Different sound for when tanking/offtanking
 	end
+
 	self:TargetMessage2(args.spellId, "orange", args.destName)
 	self:Bar(args.spellId, self:Mythic() and 15.8 or 20.7)
 end
@@ -187,19 +188,19 @@ function mod:FelBombardmentRemoved(args)
 	end
 end
 
-function mod:ApocalypseDrive(args)
-	self:StopBar(L.cannon_ability)
-	self:StopBar(244410) -- Decimation
-	self:StopBar(244761) -- Annihilation
-	self:StopBar(246220) -- Fel Bombardment
+-- function mod:ApocalypseDrive(args)
+-- 	self:StopBar(L.cannon_ability)
+-- 	self:StopBar(244410) -- Decimation
+-- 	self:StopBar(244761) -- Annihilation
+-- 	self:StopBar(246220) -- Fel Bombardment
 
-	self:Message(args.spellId, "red", "Long", CL.casting:format(args.spellName))
-	self:CastBar(args.spellId, 20)
-end
+-- 	self:Message(args.spellId, "red", "Long", CL.casting:format(args.spellName))
+-- 	self:CastBar(args.spellId, 20)
+-- end
 
-function mod:ApocalypseDriveSuccess(args)
-	self:Message(args.spellId, "orange", "Alarm")
-end
+-- function mod:ApocalypseDriveSuccess(args)
+-- 	self:Message(args.spellId, "orange", "Alarm")
+-- end
 
 function mod:WeaponDeath(args)
 	stage = stage + 1
