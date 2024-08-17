@@ -7,6 +7,7 @@ local mod, CL = BigWigs:NewBoss("Wrath of Azshara", 1456, 1492)
 if not mod then return end
 mod:RegisterEnableMob(96028)
 mod.engageId = 1814
+mod.respawnTime = 15
 
 --------------------------------------------------------------------------------
 -- Locals

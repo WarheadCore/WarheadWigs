@@ -267,7 +267,7 @@ function mod:GetOptions()
 		[225100] = L.Construct,
 		[211464] = L.Enforcer,
 		[211391] = L.Hound,
-		[211473] = L.Mistress,		
+		[211473] = L.Mistress,
 		[211470] = L.Mistress,
 		[214692] = L.Gerenth,
 		[209516] = L.ManaSaber,
@@ -325,7 +325,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "FelDetonation", 211464)
 	-- Bewitch
 	self:Log("SPELL_CAST_START", "ShadowMistress", 211470)
-	self:Log("SPELL_DAMAGE", "ShadowSlash", 211473)	
+	self:Log("SPELL_DAMAGE", "ShadowSlash", 211473)
 	-- Picking Up
 	self:Log("SPELL_CAST_START", "PickingUp", 214697)
 	self:Log("SPELL_CAST_SUCCESS", "PickingUpSuccess", 214697)
@@ -336,7 +336,7 @@ function mod:OnBossEnable()
 	self:RegisterMessage("DBM_AddonMessage") -- Catch DBM clues
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "Truthseeker", "player")
-	
+
 	self:Log("SPELL_DAMAGE", "PullDamage", "*")
 	self:Log("RANGE_DAMAGE", "PullDamage", "*")
 	self:Log("SWING_DAMAGE", "PullDamage", "*")
@@ -731,7 +731,7 @@ do
 
 	local function sendChatMessage(msg, english)
 		if IsInGroup() then
-			BigWigsLoader.SendChatMessage(english and ("[LittleWigs] %s / %s"):format(msg, english) or ("[LittleWigs] %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
+			BigWigsLoader.SendChatMessage(english and ("WHLW: %s / %s"):format(msg, english) or ("WHLW: %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
 		end
 	end
 

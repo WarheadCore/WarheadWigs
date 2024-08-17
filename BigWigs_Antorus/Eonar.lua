@@ -45,13 +45,14 @@ local timersNormal = {
 	--[[ Rain of Fel ]]--
 	[248332] = {30, 31, 35, 45, 80, 50, 20, 35, 20}, -- XXX vary a lot across logs
 
-	--[[ Waves ]]--
+	--[[ Waves ]]-- mid / bot / top / mid / bot / mid / mid-top / mid-top
+
 	["top"] = {
 		{112, "destructor"},
 		{236, "destructor"}
 	},
 	["mid"] = {
-		{6, "destructor"},
+		{13, "destructor"},
 		{74, "destructor"},
 		{165, "obfuscator"},
 		{285, "destructor"}

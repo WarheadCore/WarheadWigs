@@ -18,10 +18,10 @@ if L then
 	L.Rituals = "Rituals"
 	L.BattleRes = "BattleRes"
 	L.Reaves = "Repair, Reincarnation"
-	L.difficulty = "|cffff00ff[LittleWigs]|r|cff00ff00 Вы можете обновить сложность |r|cffff0000(все игроки покинули подземелье)|r"
-	L.diff = "|cffff00ff[LittleWigs]|r|cff00ff00 Установленный режим сложности подземелья: Эпохальный |r"
+	L.difficulty = "|cffff00ffWHLW:|r|cff00ff00 Вы можете обновить сложность |r|cffff0000(все игроки покинули подземелье)|r"
+	L.diff = "|cffff00ffWHLW:|r|cff00ff00 Установленный режим сложности подземелья: Эпохальный |r"
 	L.chatdiff = "Установленный режим сложности подземелья: Эпохальный"
-	L.chatdiffRW = "[LittleWigs] Установленный режим сложности подземелья: Эпохальный"
+	L.chatdiffRW = "WHLW: Установленный режим сложности подземелья: Эпохальный"
 	L.refresh = "|cff00ff00 Анонс для обновления сложности после ключа |r|cffff0000(для лидера группы)|r"
 end
 

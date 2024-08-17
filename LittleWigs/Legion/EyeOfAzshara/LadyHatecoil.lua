@@ -7,6 +7,7 @@ local mod, CL = BigWigs:NewBoss("Lady Hatecoil", 1456, 1490)
 if not mod then return end
 mod:RegisterEnableMob(91789)
 mod.engageId = 1811
+mod.respawnTime = 15
 
 local FocusedLightningCount = 0
 local StaticNovaCount = 0

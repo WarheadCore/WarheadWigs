@@ -20,10 +20,10 @@ if L then
 	L.Rituals = "Rituals"
 	L.BattleRes = "BattleRes"
 	L.Reaves = "Repair, Reincarnation"
-	L.difficulty = "|cffff00ff[LittleWigs]|r|cff00ff00 You can reset instances |r|cffff0000(all players outside the dungeon)|r"
-	L.diff = "|cffff00ff[LittleWigs]|r|cff00ff00 Dungeon Difficulty set to Mythic |r"
+	L.difficulty = "|cffff00ffWHLW:|r|cff00ff00 You can reset instances |r|cffff0000(all players outside the dungeon)|r"
+	L.diff = "|cffff00ffWHLW:|r|cff00ff00 Dungeon Difficulty set to Mythic |r"
 	L.chatdiff = "Dungeon Difficulty set to Mythic"
-	L.chatdiffRW = "[LittleWigs] Dungeon Difficulty set to Mythic"
+	L.chatdiffRW = "WHLW: Dungeon Difficulty set to Mythic"
 	L.refresh = "|cff00ff00 Announcement for refresh the difficulty |r|cffff0000(for group leader)|r"
 end
 
@@ -33,25 +33,78 @@ end
 
 
 function mod:GetOptions()
-	return {
-	"custom_on_announcement",
-	{688, "SAY"}, {691, "SAY"}, {157757, "SAY"}, {80353, "SAY"}, {32182, "SAY"}, {230935, "SAY"}, {90355, "SAY"}, {2825, "SAY"}, {160452, "SAY"}, {10059, "SAY"}, {11416, "SAY"}, {11419, "SAY"}, {32266, "SAY"}, {49360, "SAY"}, {11417, "SAY"}, {11418, "SAY"}, {11420, "SAY"}, {32267, "SAY"}, {49361, "SAY"}, {33691, "SAY"}, {53142, "SAY"}, {88345, "SAY"}, {88346, "SAY"}, {132620, "SAY"}, {132626, "SAY"}, {176246, "SAY"}, {176244, "SAY"}, {224871, "SAY"}, {29893, "SAY"}, {43987, "SAY"}, {190336, "SAY"}, {175215, "SAY"}, {188036, "SAY"}, {201352, "SAY"}, {201351, "SAY"}, {185709, "SAY"}, {59782, "SAY"}, {7720, "SAY"}, {698, "SAY"}, {111771, "SAY"}, {95750, "SAY"}, {20484, "SAY"}, {61999, "SAY"}, {126393, "SAY"}, {159931, "SAY"}, {159956, "SAY"}, {21169, "SAY"}, {20707, "SAY"}, {67826, "SAY"}, {199109, "SAY"}, {199115, "SAY"},
-	"stages",
-	}, {
-	["custom_on_announcement"] = "general",
-	[688] = L.WarlockPets,
-	[80353] = L.Bloodlust,
-	[10059] = L.Portals,
-	[29893] = L.Rituals,
-	[95750] = L.BattleRes,
-	[67826] = L.Reaves,
-	["stages"] = L.refresh
+	return
+	{
+		"custom_on_announcement",
+		{688, "SAY"},
+		{691, "SAY"},
+		{157757, "SAY"},
+		{80353, "SAY"},
+		{32182, "SAY"},
+		{230935, "SAY"},
+		{90355, "SAY"},
+		{2825, "SAY"},
+		{160452, "SAY"},
+		{10059, "SAY"},
+		{11416, "SAY"},
+		{11419, "SAY"},
+		{32266, "SAY"},
+		{49360, "SAY"},
+		{11417, "SAY"},
+		{11418, "SAY"},
+		{11420, "SAY"},
+		{32267, "SAY"},
+		{49361, "SAY"},
+		{33691, "SAY"},
+		{53142, "SAY"},
+		{88345, "SAY"},
+		{88346, "SAY"},
+		{132620, "SAY"},
+		{132626, "SAY"},
+		{176246, "SAY"},
+		{176244, "SAY"},
+		{224871, "SAY"},
+		{29893, "SAY"},
+		{43987, "SAY"},
+		{190336, "SAY"},
+		{175215, "SAY"},
+		{188036, "SAY"},
+		{201352, "SAY"},
+		{201351, "SAY"},
+		{185709, "SAY"},
+		{59782, "SAY"},
+		{7720, "SAY"},
+		{698, "SAY"},
+		{111771, "SAY"},
+		{95750, "SAY"},
+		{20484, "SAY"},
+		{61999, "SAY"},
+		{126393, "SAY"},
+		{159931, "SAY"},
+		{159956, "SAY"},
+		{21169, "SAY"},
+		{20707, "SAY"},
+		{67826, "SAY"},
+		{199109, "SAY"},
+		{199115, "SAY"},
+		{50769, "SAY"},
+		"stages",
+	},
+	{
+		["custom_on_announcement"] = "general",
+		[688] = L.WarlockPets,
+		[80353] = L.Bloodlust,
+		[10059] = L.Portals,
+		[29893] = L.Rituals,
+		[95750] = L.BattleRes,
+		[67826] = L.Reaves,
+		["stages"] = L.refresh
 	}
 end
 
 function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "InstantCasts", 698, 688, 691, 157757, 80353, 32182, 230935, 90355, 2825, 160452, 10059, 11416, 11419, 32266, 49360, 11417, 11418, 11420, 32267, 49361, 33691, 53142, 88345, 88346, 132620, 132626, 176246, 176244, 224871, 29893, 43987, 190336, 111771, 67826, 199109, 199115, 21169)
-	self:Log("SPELL_CAST_START", "Sum", 59782, 7720)
+	self:Log("SPELL_CAST_START", "SpellCastStart", 59782, 7720, 50769)
 	self:Log("SPELL_AURA_APPLIED", "SoulStone", 20707)
 	self:Log("SPELL_CREATE", "Create", 175215, 188036, 201352, 201351, 185709)
 	self:Log("SPELL_RESURRECT", "Ressurect", 95750, 20484, 61999, 126393, 159931, 159956)
@@ -63,9 +116,9 @@ end
 -- Event Handlers
 --
 
-
 local needsave = -1;
 local lastsave = 0;
+
 local AutoSaveOnLoot = function(self,event,...)
 	if event == "CHAT_MSG_LOOT" then
         local lootstring, _, _, _, player = ...
@@ -103,15 +156,38 @@ function mod:raidsay()
 	SendChatMessage(L.chatdiffRW ,"RAID_WARNING" ,nil ,nil)
 end
 
-local function sendChatMessage(msg, english)
-	local inInstance, instanceType = IsInInstance()
-	if inInstance and instanceType == "raid" then
-		BigWigsLoader.SendChatMessage(english and ("[LittleWigs] %s / %s"):format(msg, english) or ("[LittleWigs] %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")
-	elseif IsInGroup() then
-		BigWigsLoader.SendChatMessage(english and ("[LittleWigs] %s / %s"):format(msg, english) or ("[LittleWigs] %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
-	end
+local function SendWHLWMessageToChat(message, usingRW)
+    if not IsInGroup() then
+        print(message)
+        return
+    end
+
+    local sendChannelType = "PARTY"
+
+    if not IsInGroup(2) then
+        if IsInRaid() then
+            if usingRW then
+                sendChannelType = "RAID_WARNING"
+            else
+                sendChannelType = "RAID"
+            end
+        end
+    elseif IsInGroup(2) then
+        sendChannelType = "INSTANCE_CHAT"
+    end
+
+    SendChatMessage(("WH: %s"):format(message), sendChannelType)
 end
 
+local function GetSpellLinks(id)
+    local spellId = tonumber(id)
+    local spellName = DBM:GetSpellInfo(spellId)
+    if not spellName then
+        spellName = DBM_CORE_UNKNOWN
+        DBM:Debug("Spell ID does not exist: "..spellId)
+    end
+    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
+end
 
 function mod:checkdungeon()
 	local diff = GetDungeonDifficultyID()
@@ -127,7 +203,7 @@ function mod:checkdungeon()
 		self:CancelTimer(timerdungeon)
 	end
 end
-	
+
 function mod:checkdiff()
 	local timerdiff = 0
 	local diff = GetDungeonDifficultyID()
@@ -139,7 +215,7 @@ function mod:checkdiff()
 			self:CancelTimer(timerdiff)
 			self:CancelTimer(timerdungeon)
 		else
-			sendChatMessage(L.chatdiff)
+			SendWHLWMessageToChat(L.chatdiff)
 			self:CancelTimer(timerdiff)
 			self:CancelTimer(timerdungeon)
 		end
@@ -168,7 +244,7 @@ function mod:check()
 			if (dungeon == 1456 or dungeon == 1458 or dungeon == 1466 or dungeon == 1477 or dungeon == 1492 or dungeon == 1493 or dungeon == 1501 or dungeon == 1516 or dungeon == 1544 or dungeon == 1571 or dungeon == 1651 or dungeon == 1677 or dungeon == 1753 or dungeon == 1520 or dungeon == 1530 or dungeon == 1648 or dungeon == 1676 or dungeon == 1712) == true then
 				self:CancelTimer(timerdungeon)
 			end
-		end	
+		end
 	elseif diff == 23 or inInstance == true or UnitIsGroupLeader("player") == false then
 		self:CancelTimer(timer)
 		self:CancelTimer(timerdiff)
@@ -190,11 +266,17 @@ do
 	end
 end
 
-
-function mod:Sum(args)
+function mod:SpellCastStart(args)
 	if self:GetOption("custom_on_announcement") then
 		if self:Me(args.sourceGUID) and self:CheckOption(args.spellId, "SAY") then
-			sendChatMessage(CL.on:format(CL.casting:format(args.spellName), UnitName("target")))
+			local targetName = UnitName("target")
+			local spellLink = GetSpellLink(args.spellId)
+
+			if targetName then
+				SendWHLWMessageToChat(CL.on:format(CL.casting:format(spellLink), targetName))
+			else
+				SendWHLWMessageToChat(CL.casting:format(spellLink))
+			end
 		end
 	end
 end
@@ -204,9 +286,9 @@ function mod:InstantCasts(args)
 	if (UnitInParty(args.sourceName) or UnitInRaid(args.sourceName)) and self:GetOption("custom_on_announcement") then
 		if self:Me(args.sourceGUID) and self:CheckOption(args.spellId, "SAY") then
 			if spellId == 698 then
-				sendChatMessage(CL.casting:format(args.spellName))
+				SendWHLWMessageToChat(CL.casting:format(args.spellName))
 			else
-				sendChatMessage(args.spellName)
+				SendWHLWMessageToChat(args.spellName)
 			end
 		end
 		self:TargetMessage(args.spellId, self:ColorName(args.sourceName), "Positive", "Long", nil, nil, true)
@@ -216,7 +298,7 @@ end
 function mod:Create(args)
 	if (UnitInParty(args.sourceName) or UnitInRaid(args.sourceName)) and self:GetOption("custom_on_announcement") then
 		if self:Me(args.sourceGUID) and self:CheckOption(args.spellId, "SAY") then
-			sendChatMessage(args.spellName)
+			SendWHLWMessageToChat(args.spellName)
 		end
 		self:TargetMessage(args.spellId, self:ColorName(args.sourceName), "Positive", "Long", nil, nil, true)
 	end
@@ -225,7 +307,7 @@ end
 function mod:SoulStone(args)
 	if (UnitInParty(args.sourceName) or UnitInRaid(args.sourceName)) and self:GetOption("custom_on_announcement") then
 		if self:Me(args.sourceGUID) and self:CheckOption(args.spellId, "SAY") then
-			sendChatMessage(CL.on:format(args.spellName, args.destName))
+			SendWHLWMessageToChat(CL.on:format(args.spellName, args.destName))
 		end
 		self:TargetMessage(args.spellId, args.destName, "Positive", "Long")
 	end
@@ -235,17 +317,20 @@ function mod:Ressurect(args)
 	local spellId = args.spellId
 	if (UnitInParty(args.sourceName) or UnitInRaid(args.sourceName)) and self:GetOption("custom_on_announcement") then
 		if self:Me(args.sourceGUID) and self:CheckOption(args.spellId, "SAY") then
-			sendChatMessage(CL.on:format(args.spellName, args.destName))
+			SendWHLWMessageToChat(CL.on:format(args.spellName, args.destName))
 		end
+
 		self:TargetMessage(args.spellId, args.destName, "Positive", "Long")
 	end
 end
 
 local function msg(...)
-    print("|cffff0000Uwow:|r |cffff00ffLittleWigs|r |cffff0000[|r|cff00ff00Modded by|r |cFFA330C9Энелрила|r|cffff0000]|r",...)
+    print("|cffff0000Warhead LittleWigs:|r", ...)
 end
-msg("|cFF00D1FF - Loaded |r")
+
+msg(" |cFF00D1FFLoaded |r")
 local debug_enabled = false
+
 local function debug(...)
   if debug_enabled then
     msg(...)
@@ -290,7 +375,7 @@ function AutoKeystone:OnEvent(event, addon)
 	if (addon == "Blizzard_ChallengesUI") then
 		if ChallengesKeystoneFrame then
 			ChallengesKeystoneFrame:HookScript("OnShow", self.OnShow)
-			
+
 			self:UnregisterEvent(event)
 		end
 	end
@@ -321,7 +406,7 @@ i:RegisterEvent("ZONE_CHANGED_INDOORS")
 i:RegisterEvent("ZONE_CHANGED")
 i:RegisterEvent("PLAYER_STARTED_MOVING")
 i:RegisterEvent("PLAYER_DIFFICULTY_CHANGED")
-i:SetScript("OnEvent", 
+i:SetScript("OnEvent",
   function(self, event, ...)
 	local mapID = select(8,GetInstanceInfo())
     if event == "PLAYER_ENTERING_WORLD" then

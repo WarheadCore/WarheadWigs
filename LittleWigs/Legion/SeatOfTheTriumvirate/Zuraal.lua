@@ -78,7 +78,7 @@ do
 				if power == 100 and power > prevEnergy then
 					self:Message(244061, "Important", "Bam", CL.other:format(self:ColorName(UnitName(unit)), CL.percent:format(power, self:SpellName(244061))))
 					if UnitName(unit) == UnitName("player") then
-						SendChatMessage("[LittleWigs] {rt3} Energy = 100% {rt3}" ,"PARTY" ,nil ,nil)
+						SendChatMessage("WHLW: {rt3} Energy = 100% {rt3}" ,"PARTY" ,nil ,nil)
 					end
 					prevEnergy = power
 				elseif power > 0 and power > prevEnergy then
@@ -91,7 +91,7 @@ do
 			local power = UnitPower("player", 10)
 			if power == 100 and power > prevEnergy then
 				self:Message(244061, "Important", "Bam", CL.other:format(self:ColorName(UnitName("player")), CL.percent:format(power, self:SpellName(244061))))
-				SendChatMessage("[LittleWigs] {rt3} Energy = 100% {rt3}" ,"PARTY" ,nil ,nil)
+				SendChatMessage("WHLW: {rt3} Energy = 100% {rt3}" ,"PARTY" ,nil ,nil)
 				prevEnergy = power
             elseif power > 0 and power > prevEnergy then
 				self:Message(244061, "Positive", "Info", CL.other:format(self:ColorName(UnitName("player")), CL.percent:format(power, self:SpellName(244061))))

@@ -7,6 +7,7 @@ local mod, CL = BigWigs:NewBoss("King Deepbeard", 1456, 1491)
 if not mod then return end
 mod:RegisterEnableMob(91797)
 mod.engageId = 1812
+mod.respawnTime = 15
 
 
 local GaseousBubblesCount = 1

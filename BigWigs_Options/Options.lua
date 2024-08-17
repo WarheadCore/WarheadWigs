@@ -921,8 +921,8 @@ do
 			local addonNameToHeader = {}
 			local defaultHeader
 			if value == "bigwigs" then
-				defaultHeader = C_ChatInfo and "BigWigs_BattleForAzeroth" or "BigWigs_Legion" -- XXX Temp
-				for i = 1, C_ChatInfo and 8 or 7 do -- XXX Temp
+				defaultHeader = "BigWigs_Legion" -- XXX Temp
+				for i = 1, 7 do -- XXX Temp
 					local value = "BigWigs_" .. expansionHeader[i]
 					treeTbl[i] = {
 						text = EJ_GetTierInfo(i),
@@ -932,7 +932,7 @@ do
 					addonNameToHeader[value] = i
 				end
 			elseif value == "littlewigs" then
-				defaultHeader =  C_ChatInfo and "LittleWigs_BattleForAzeroth" or "LittleWigs_Legion" -- XXX Temp
+				defaultHeader = "LittleWigs_Legion" -- XXX Temp
 				local enabled = GetAddOnEnableState(playerName, "LittleWigs") > 0
 				for i = 1,  C_ChatInfo and 8 or 7 do -- XXX Temp
 					local value = "LittleWigs_" .. expansionHeader[i]
@@ -1016,7 +1016,7 @@ do
 
 		local bw = AceGUI:Create("Frame")
 		isOpen = bw
-		bw:SetTitle("BigWigs")
+		bw:SetTitle("Warhead BigWigs")
 		bw:SetStatusText(" "..loader:GetReleaseString())
 		bw:SetWidth(858)
 		bw:SetHeight(660)

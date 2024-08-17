@@ -126,7 +126,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "UnrulyYell", 199726)
 	self:Log("SPELL_CAST_START", "Sever", 199652)
 	self:Log("SPELL_CAST_START", "CallAncestor", 200969)
-	
+
 	self:Log("SPELL_CAST_START", "SearingLight", 192288)
 	self:Log("SPELL_CAST_SUCCESS", "SanctifySuccess", 192158)
 	self:Log("SPELL_CAST_SUCCESS", "EyeoftheStormSuccess", 200901)
@@ -140,7 +140,7 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_AURA_APPLIED", "Thunderstrike", 215430)
 	self:Log("SPELL_AURA_REMOVED", "ThunderstrikeRemoved", 215430)
-	
+
 	self:Log("SPELL_CAST_START", "ValarjarRunecarver", 198962)
 
 	self:Death("KingsDeath",
@@ -149,7 +149,7 @@ function mod:OnBossEnable()
 		97083, -- King Ranulf
 		97084 -- King Tor
 	)
-	
+
 	self:Death("OlmyrSolstenDeath", 97202, 97219)
 
 	self:RegisterEvent("UNIT_SPELLCAST_START")
@@ -365,9 +365,9 @@ end
 local function sendChatMessage(msg, english)
 	local inInstance, instanceType = IsInInstance()
 	if inInstance and instanceType == "raid" then
-		BigWigsLoader.SendChatMessage(english and ("[LittleWigs] %s / %s"):format(msg, english) or ("[LittleWigs] %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")
+		BigWigsLoader.SendChatMessage(english and ("WHLW: %s / %s"):format(msg, english) or ("WHLW: %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")
 	elseif IsInGroup() then
-		BigWigsLoader.SendChatMessage(english and ("[LittleWigs] %s / %s"):format(msg, english) or ("[LittleWigs] %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
+		BigWigsLoader.SendChatMessage(english and ("WHLW: %s / %s"):format(msg, english) or ("WHLW: %s"):format(msg), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
 	end
 end
 
@@ -442,7 +442,7 @@ function mod:OlmyrSolstenDeath(args)
 	if mobId == 97202 then
 		self:StopBar(192288)
 		self:StopBar(192158)
-	elseif mobId == 97219 then 
+	elseif mobId == 97219 then
 		self:StopBar(191976)
 		self:StopBar(200901)
 	end

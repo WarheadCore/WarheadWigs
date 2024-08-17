@@ -47,9 +47,9 @@ if L then
 	L.timeLeft = "%.1fс" -- s = seconds
 	L.torment = "Мучение: %s"
 	L.nextTorment = "Следуещее Мучение: |cffffffff%s|r"
-	L.tormentHeal = "Хил/Дот" -- something like Heal/DoT (max 10 characters)
+	L.tormentHeal = "Амантул" -- something like Heal/DoT (max 10 characters)
 	L.tormentLightning = "Молнии" -- short for "Chain Lightning" (or similar, max 10 characters)
-	L.tormentArmy = "Армия" -- short for "Spectral Army of Norgannon" (or similar, max 10 characters)
+	L.tormentArmy = "Стенка" -- short for "Spectral Army of Norgannon" (or similar, max 10 characters)
 	L.tormentFlames = "Огонь" -- short for "Flames of Khaz'goroth" (or similar, max 10 characters)
 end
 

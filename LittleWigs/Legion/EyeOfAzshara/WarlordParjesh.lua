@@ -7,6 +7,7 @@ local mod, CL = BigWigs:NewBoss("Warlord Parjesh", 1456, 1480)
 if not mod then return end
 mod:RegisterEnableMob(91784)
 mod.engageId = 1810
+mod.respawnTime = 15
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -19,8 +20,9 @@ local addCount = 1
 
 function mod:GetOptions()
 	return {
-		{192094, "ICON", "SAY", "FLASH"}, -- Impaling Spear
-		{192131, "ICON", "SAY"}, -- Throw Spear
+		{192094, "ICON", "SAY", "FLASH", "COUNTDOWN"}, -- Impaling Spear
+		{191977, "SAY", "COUNTDOWN"}, -- Impaling Spear
+		{192131, "ICON"}, -- Throw Spear
 		197064, -- Enrage
 		197502, -- Restoration
 		191900, -- Crashing Wave
@@ -36,6 +38,7 @@ end
 
 function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "ImpalingSpear", 192094)
+	self:Log("SPELL_AURA_APPLIED", "ImpalingSpearApply", 191977)
 	self:Log("SPELL_AURA_REMOVED", "ImpalingSpearOver", 192094)
 	self:Log("SPELL_AURA_APPLIED", "ThrowSpear", 192131)
 	self:Log("SPELL_AURA_REMOVED", "ThrowSpearRemoved", 192131)
@@ -102,7 +105,7 @@ function mod:ImpalingSpear(args)
 	if self:Me(args.destGUID) then
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
-		self:SayCountdown(192094, 5, 8, 3)
+		self:SayCountdown(192094, 12, 8, 3)
 	end
 	ThrowSpearTimeLeft = self:BarTimeLeft(192131)
 	CallReinforcementsTimeLeft = self:BarTimeLeft(196563)
@@ -111,6 +114,15 @@ function mod:ImpalingSpear(args)
 	elseif CallReinforcementsTimeLeft < 5 then
 		self:CDBar(196563, 5)
 	end
+end
+
+function mod:ImpalingSpearApply(args)
+	if not self:Me(args.destGUID) then
+		return
+	end
+
+	self:Say(args.spellId)
+	self:SayCountdown(191977, 12, 8, 3)
 end
 
 function mod:ImpalingSpearOver(args)
