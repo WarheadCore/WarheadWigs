@@ -150,7 +150,7 @@ function mod:OnEngage()
 		self:Bar(252861, 27.9) -- Storm of Darkness
 	end
 
-	self:CDBar("torment_of_the_titans", 82, L.torment_of_the_titans, L.torment_of_the_titans_icon)
+	self:CDBar("torment_of_the_titans", 90, L.torment_of_the_titans, L.torment_of_the_titans_icon)
 	self:CDBar("stages", 190, -15969, "achievement_boss_argus_shivan") -- Diima, Mother of Gloom
 
 	self:Berserk(720)
