@@ -30,6 +30,11 @@ media:Register(SOUND, "BigWigs: Long", "Interface\\AddOns\\BigWigs\\Sounds\\Long
 media:Register(SOUND, "BigWigs: Info", "Interface\\AddOns\\BigWigs\\Sounds\\Info.ogg")
 media:Register(SOUND, "BigWigs: Alert", "Interface\\AddOns\\BigWigs\\Sounds\\Alert.ogg")
 media:Register(SOUND, "BigWigs: Alarm", "Interface\\AddOns\\BigWigs\\Sounds\\Alarm.ogg")
+media:Register(SOUND, "BigWigs: Warhead | Отклонения", "Interface\\AddOns\\BigWigs\\Sounds\\Warhead_1.ogg")
+media:Register(SOUND, "BigWigs: Warhead | Слейвс", "Interface\\AddOns\\BigWigs\\Sounds\\Warhead_2.ogg")
+media:Register(SOUND, "BigWigs: Warhead | Хлопнуло", "Interface\\AddOns\\BigWigs\\Sounds\\Warhead_3.ogg")
+media:Register(SOUND, "BigWigs: Warhead | 4", "Interface\\AddOns\\BigWigs\\Sounds\\Warhead_4.ogg")
+media:Register(SOUND, "BigWigs: Warhead | 5", "Interface\\AddOns\\BigWigs\\Sounds\\Warhead_5.ogg")
 
 -- Ingame sounds that DBM uses for DBM converts
 media:Register(SOUND, "BigWigs: [DBM] ".. L.FlagTaken, "Sound\\Spells\\PVPFlagTaken.ogg")
