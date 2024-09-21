@@ -67,10 +67,10 @@ function mod:OnEngage()
 	boltCount = 1
 	holyWrathExplo = 0
 	sacredCount = 0
-	self:Bar(227809, 8.8) -- Holy Bolt
+	self:Bar(227809, 9) -- Holy Bolt
 	self:OpenProximity(227809, 6) -- Holy Bolt
-	self:Bar(227789, 10.9) -- Sacred Ground
-	self:Bar(227800, 15.8) -- Holy Shock
+	self:Bar(227789, 11) -- Sacred Ground
+	self:Bar(227800, 16) -- Holy Shock
 	self:Bar(227508, 50) -- Mass Repentance
 end
 
@@ -101,8 +101,8 @@ do
 	if sacredCount == 5 and boltCount == 5 then
 		self:Bar(227809, 4) -- Holy Bolt
 	elseif boltCount == 4 then
-		self:Bar(227809, 8.5) -- Holy Bolt
-		self:Bar(227800, 4.5) -- Holy Shock
+		self:Bar(227809, 9) -- Holy Bolt
+		self:Bar(227800, 5) -- Holy Shock
 	end
 	sacredCount = sacredCount + 1
 	end
@@ -126,7 +126,9 @@ function mod:HolyShock(args)
 	else
 		self:CDBar(args.spellId, 13)
 	end
+
 	shockCount = shockCount + 1
+
 	if self:Interrupter(args.sourceGUID) then
 		self:Message(args.spellId, "Attention", "Alarm", CL.incoming:format(args.spellName))
 	end
@@ -201,23 +203,25 @@ do
 
 	function mod:HolyBolt(args)
 		self:GetBossTarget(printTarget, 0.3, args.sourceGUID)
+
 		if boltCount == 6 then
-		self:CDBar(args.spellId, 14)
-	elseif boltCount == 5 and sacredCount == 5 then
-		self:CDBar(args.spellId, 14)
-		self:Bar(227789, 1)
-	elseif boltCount == 5 then
-		self:CDBar(args.spellId, 14)
-	elseif boltCount == 4 then
-		self:CDBar(args.spellId, 13.9)
-	elseif boltCount == 3 then
-		self:CDBar(args.spellId, 15)
-	elseif boltCount == 2 then
-		self:CDBar(args.spellId, 15)
-	else
-		self:CDBar(args.spellId, 14)
-	end
-	boltCount = boltCount + 1
+			self:CDBar(args.spellId, 14)
+		elseif boltCount == 5 and sacredCount == 5 then
+			self:CDBar(args.spellId, 14)
+			self:Bar(227789, 1)
+		elseif boltCount == 5 then
+			self:CDBar(args.spellId, 14)
+		elseif boltCount == 4 then
+			self:CDBar(args.spellId, 18)
+		elseif boltCount == 3 then
+			self:CDBar(args.spellId, 15)
+		elseif boltCount == 2 then
+			self:CDBar(args.spellId, 15)
+		else
+			self:CDBar(args.spellId, 14)
+		end
+
+		boltCount = boltCount + 1
 	end
 
 	function mod:HolyBoltSuccess(args)
