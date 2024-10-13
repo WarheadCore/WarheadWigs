@@ -7,7 +7,7 @@ local mod, CL = BigWigs:NewBoss("Skylord Tovra", 1208, 1133)
 if not mod then return end
 mod:RegisterEnableMob(80005)
 mod.engageId = 1736
-mod.respawnTime = 5
+mod.respawnTime = 3
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -38,7 +38,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "HuntersMark", 163447)
 	self:Log("SPELL_AURA_APPLIED", "HuntersMarkApplied", 163447)
 	self:Log("SPELL_AURA_REMOVED", "HuntersMarkRemoved", 163447)
-
 	self:Log("SPELL_AURA_APPLIED", "DiffusedEnergy", 161588)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "DiffusedEnergy", 161588)
 
@@ -49,11 +48,9 @@ end
 -- Event Handlers
 --
 
-function mod:Thunder(_, _, _, _, _, target)
-	if target == L.rakun then
-		self:Message(161801, "Important", "Long", CL.incoming:format(self:SpellName(161801)))
-		self:Bar(161801, 17.3)
-	end
+function mod:Thunder()
+	self:Message(161801, "Important", "Long", CL.incoming:format(self:SpellName(161801)))
+	self:Bar(161801, 17.3)
 end
 
 function mod:SpinningSpear(args)
