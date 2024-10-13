@@ -67,7 +67,7 @@ function mod:Slam(args)
 		self:CDBar(162617, 16) -- 16-19, will delay to ~24 if just about to expire after Mad Dash
 	end
 
-	self:CastBar(162617, 1.5)
+	self:CastBar(162617, 2)
 end
 
 function mod:Deaths(args)
