@@ -7,7 +7,7 @@ local mod, CL = BigWigs:NewBoss("Sadana Bloodfury", 1176, 1139)
 if not mod then return end
 mod:RegisterEnableMob(75509)
 mod.engageId = 1677
-mod.respawnTime = 33
+mod.respawnTime = 15
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -40,7 +40,7 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:CDBar(164974, 59) -- Dark Eclipse
+	self:CDBar(164974, 48) -- Dark Eclipse
 end
 
 --------------------------------------------------------------------------------
@@ -48,8 +48,8 @@ end
 --
 
 function mod:DarkEclipse(args)
-	self:Bar(args.spellId, 5, CL.cast:format(args.spellName))
-	--self:CDBar(args.spellId, 0) 48.2, 73.9, 51.9,
+	self:Bar(args.spellId, 6, CL.cast:format(args.spellName))
+	self:CDBar(164974, 48)
 	self:Message(args.spellId, "Urgent", "Warning", CL.casting:format(args.spellName))
 end
 
@@ -59,8 +59,10 @@ do
 			self:Flash(153240)
 			self:Say(153240)
 		end
+
 		self:TargetMessage(153240, player, "Attention", "Alert")
 	end
+
 	function mod:Daggerfall(args)
 		self:GetBossTarget(printTarget, 0.2, args.sourceGUID)
 	end
@@ -75,7 +77,8 @@ end
 
 function mod:DarkCommunion(args)
 	self:Message(args.spellId, "Positive", "Info", CL.add_spawned)
-	self:Bar(args.spellId, 61, CL.next_add)
+	self:Bar(args.spellId, 60, CL.next_add)
+
 	if self:GetOption("custom_on_markadd") then
 		self:RegisterTargetEvents("FindAdd")
 	end
