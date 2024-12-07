@@ -6,6 +6,7 @@
 <Script file="Xeritac.lua"/>
 <Script file="ArchmageSol.lua"/>
 <Script file="Yalnu.lua"/>
+<Script file="Trash.lua"/>
 
 <Include file="Options\options.xml"/>
 

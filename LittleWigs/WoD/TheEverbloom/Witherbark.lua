@@ -30,26 +30,32 @@ end
 
 function mod:GetOptions()
 	return {
-		164294, -- Unchecked Growth
 		164275, -- Brittle Bark
-		{164357, "TANK"}, -- Parched Gasp
+		164438, -- Energize
+		164357, -- Parched Gasp
+		{ 164294, "ME_ONLY" }, -- Unchecked Growth
 	}
 end
 
 function mod:OnBossEnable()
-	self:Log("SPELL_AURA_APPLIED", "UncheckedGrowth", 164294)
 	self:Log("SPELL_AURA_APPLIED", "BrittleBark", 164275)
 	self:Log("SPELL_AURA_REMOVED", "BrittleBarkOver", 164275)
 	self:Log("SPELL_CAST_SUCCESS", "Energize", 164438)
 	self:Log("SPELL_CAST_START", "ParchedGasp", 164357)
-
+	self:Log("SPELL_AURA_APPLIED", "UncheckedGrowth", 164294)
 	self:Log("SPELL_CAST_SUCCESS", "UncheckedGrowthSpawned", 181113) -- Encounter Spawn
+
+	self:Log("SPELL_AURA_APPLIED", "UncheckedGrowthApplied", 164302)
+	self:Log("SPELL_PERIODIC_DAMAGE", "UncheckedGrowthDamage", 164294)
+	self:Log("SPELL_PERIODIC_MISSED", "UncheckedGrowthDamage", 164294)
 end
 
 function mod:OnEngage()
 	energy = 0
-	self:CDBar(164357, 7) -- Parched Gasp
-	self:Bar(164275, 30) -- Brittle Bark
+	self:CDBar(164294, 5.8) -- Unchecked Growth
+	self:CDBar(164357, 9.7) -- Parched Gasp
+	-- cast at 0 energy, 39s energy loss + delay
+	self:CDBar(164275, 39.2) -- Brittle Bark
 end
 
 --------------------------------------------------------------------------------
@@ -66,25 +72,29 @@ function mod:BrittleBark(args)
 	energy = 0
 	self:Message(args.spellId, "Attention", "Info", ("%s - %s"):format(args.spellName, CL.incoming:format(self:SpellName(-10100)))) -- 10100 = Aqueous Globules
 	self:StopBar(164357) -- Parched Gasp
+	self:StopBar(args.spellId)
 end
 
 function mod:BrittleBarkOver(args)
 	self:Message(args.spellId, "Attention", "Info", CL.over:format(args.spellName))
-	self:Bar(args.spellId, 30)
+	self:Bar(args.spellId, 40)
 	self:CDBar(164357, 4) -- Parched Gasp
 end
 
 function mod:Energize()
 	if self.isEngaged then -- This happens when killing the trash, we only want it during the encounter.
 		energy = energy + 25
+
 		if energy < 101 then
 			self:Message(164275, "Neutral", nil, L.energyStatus:format(energy), "spell_lightning_lightningbolt01")
+			self:PlaySound(164275, "info")
 		end
 	end
 end
 
 function mod:ParchedGasp(args)
 	self:Message(args.spellId, "Important")
+	self:PlaySound(args.spellId, "alarm")
 	self:CDBar(args.spellId, 11) -- 10-13s
 end
 

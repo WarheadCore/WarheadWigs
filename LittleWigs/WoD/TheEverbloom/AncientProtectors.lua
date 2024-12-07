@@ -13,7 +13,11 @@ mod.respawnTime = 30
 -- Locals
 --
 
-local golaHasDied = false
+local lifeWardenGolaDefeated = false
+local earthshaperTeluDefeated = false
+local dulhuDefeated = false
+local revitalizeCount = 1
+local toxicBloomCount = 1
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -24,8 +28,8 @@ if L then
 	L[83892] = "|cFF00CCFFGola|r"
 	L[83893] = "|cFF00CC00Telu|r"
 
-	L.custom_on_automark = "Auto-Mark Bosses"
-	L.custom_on_automark_desc = "Automatically mark Gola with a {rt8} and Telu with a {rt7}, requires promoted or leader."
+	L.custom_on_automark = "Автоматическая маркировка боссов"
+	L.custom_on_automark_desc = "Автоматически маркировать Гола {rt8} и Телу {rt7}, необходимо иметь на это разрешение."
 	L.custom_on_automark_icon = 8
 end
 
@@ -34,34 +38,62 @@ end
 --
 
 function mod:GetOptions()
-	return {
-		168082, -- Revitalizing Waters
-		168105, -- Rapid Tides
-		168041, -- Briarskin
-		167977, -- Bramble Patch
-		168383, -- Slash
-		168520, -- Shaper's Fortitude
+	return
+	{
+		-- Life Warden Gola
+		{ 168082, "DISPEL" }, -- Revitalize
+		427498, -- Torrential Fury
+
+		-- Earthshaper Telu
+		427459, -- Toxic Bloom
+		427509, -- Terrestrial Fury
+
+		-- Dulhu
+		427510, -- Noxious Charge
+		427513, -- Noxious Discharge
+
 		"custom_on_automark",
+	},
+	{
+		[168082] = "Страж Жизни Гола", -- Life Warden Gola
+		[427459] = "Демиург Телу", -- Earthshaper Telu
+		[427510] = "Дулгу", -- Dulhu
 	}
 end
 
 function mod:OnBossEnable()
-	self:Log("SPELL_CAST_START", "RevitalizingWaters", 168082)
-	self:Log("SPELL_AURA_APPLIED", "RapidTides", 168105)
+	-- Life Warden Gola
+	self:Log("SPELL_CAST_START", "Revitalize", 168082)
+	self:Log("SPELL_AURA_APPLIED", "RevitalizeApplied", 168082)
+	self:Log("SPELL_CAST_START", "TorrentialFury", 427498)
+	self:Death("LifeWardenGolaDeath", 83892)
 
-	self:Log("SPELL_CAST_START", "Briarskin", 168041)
-	self:Log("SPELL_AURA_APPLIED", "BramblePatch", 167977)
+	-- Earthshaper Telu
+	self:Log("SPELL_CAST_START", "ToxicBloom", 427459)
+	self:Log("SPELL_CAST_START", "TerrestrialFury", 427509)
+	self:Death("EarthshaperTeluDeath", 83893)
 
-	self:Log("SPELL_CAST_START", "Slash", 168383)
-
-	self:Log("SPELL_AURA_APPLIED", "ShapersFortitude", 168520)
-
-	self:Death("GolasDeath", 83892) -- Life Warden Gola
+	-- Dulhu
+	self:Log("SPELL_AURA_APPLIED", "NoxiousCharge", 427510)
+	self:Log("SPELL_PERIODIC_DAMAGE", "NoxiousDischargeDamage", 427513) -- no alert on APPLIED, doesn't damage right away
+	self:Log("SPELL_PERIODIC_MISSED", "NoxiousDischargeDamage", 427513)
+	self:Death("DulhuDeath", 83894)
 end
 
 function mod:OnEngage()
-	golaHasDied = false
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT")
+
+	lifeWardenGolaDefeated = false
+	earthshaperTeluDefeated = false
+	dulhuDefeated = false
+	revitalizeCount = 1
+	toxicBloomCount = 1
+
+	self:CDBar(427498, 1.0) -- Torrential Fury
+	self:CDBar(427459, 7.1) -- Toxic Bloom
+	self:CDBar(427510, 12.1) -- Noxious Charge
+	self:CDBar(427509, 26.5) -- Terrestrial Fury
+	self:CDBar(168082, 31.5) -- Revitalize
 end
 
 --------------------------------------------------------------------------------
@@ -73,55 +105,135 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 		for i = 1, 3 do
 			local unit = ("boss%d"):format(i)
 			local id = self:MobId(UnitGUID(unit))
-			if id == 83892 and not golaHasDied then
+
+			if id == 83892 and not lifeWardenGolaDefeated then
 				if not IsInGroup() then SetRaidTarget(unit, 0) end -- setting the same icon twice while not in a group removes it
 				SetRaidTarget(unit, 8)
 			elseif id == 83893 then
 				if not IsInGroup() then SetRaidTarget(unit, 0) end
-				SetRaidTarget(unit, golaHasDied and 8 or 7)
+				SetRaidTarget(unit, lifeWardenGolaDefeated and 8 or 7)
 			end
 		end
 	end
 end
 
 -- Life Warden Gola
-function mod:RevitalizingWaters(args)
+function mod:Revitalize(args)
 	local raidIcon = CombatLog_String_GetIcon(args.sourceRaidFlags)
 	self:Message(args.spellId, "Urgent", "Warning", CL.other:format(raidIcon.. L[83892], CL.casting:format(self:SpellName(31730)))) -- 31730 = "Heal"
-end
 
-function mod:RapidTides(args)
-	local raidIcon = CombatLog_String_GetIcon(args.destRaidFlags)
-	local name = L[self:MobId(args.destGUID)] or args.destName
-	self:Message(args.spellId, "Important", self:Dispeller("magic", true) and "Alarm", CL.other:format(args.spellName, raidIcon..name))
-end
+	self:PlaySound(args.spellId, "warning")
+	revitalizeCount = revitalizeCount + 1
 
--- Earthshaper Telu
-function mod:Briarskin(args)
-	local raidIcon = CombatLog_String_GetIcon(args.sourceRaidFlags)
-	self:Message(args.spellId, "Attention", "Alert", CL.other:format(raidIcon.. L[83893], CL.casting:format(args.spellName)))
-end
-
-function mod:BramblePatch(args)
-	if self:Me(args.destGUID) then
-		self:Message(args.spellId, "Personal", nil, CL.underyou:format(args.spellName))
+	if earthshaperTeluDefeated or revitalizeCount % 2 == 0 then
+		self:CDBar(args.spellId, 17.0)
+	else
+		-- will be delayed by Torrential Fury
+		self:CDBar(args.spellId, 31.6)
 	end
 end
 
--- Dulhu
-function mod:Slash(args)
-	self:Message(args.spellId, "Attention")
+function mod:RevitalizeApplied(args)
+	if self:Dispeller("magic", true, args.spellId) then
+		self:Message(args.spellId, "yellow", "Alarm", CL.on:format(args.spellName, args.destName))
+		self:PlaySound(args.spellId, "warning")
+	end
 end
 
--- General
-function mod:ShapersFortitude(args)
-	local raidIcon = CombatLog_String_GetIcon(args.destRaidFlags)
-	local name = L[self:MobId(args.destGUID)] or args.destName
-	self:Message(args.spellId, "Attention", nil, CL.other:format(args.spellName, raidIcon..name))
-	self:Bar(args.spellId, 8, CL.other:format(self:SpellName(111923), raidIcon..name)) -- 111923 = "Fortitude"
+function mod:TorrentialFury(args)
+	revitalizeCount = 1
+
+	self:Message(args.spellId, "cyan")
+	self:PlaySound(args.spellId, "long")
+
+	if not earthshaperTeluDefeated then
+		-- this will not be cast again if Earthshaper Telu has been defeated
+		self:CDBar(args.spellId, 52.1)
+	end
+
+	if not earthshaperTeluDefeated and not dulhuDefeated then
+		-- this will not be cast as usual if either of the other two bosses have been defeated
+		self:CDBar(168082, 31) -- Revitalize
+	end
 end
 
-function mod:GolasDeath(args)
-	golaHasDied = true
+function mod:LifeWardenGolaDeath()
+	lifeWardenGolaDefeated = true
+
+	self:StopBar(168082) -- Revitalize
+	self:StopBar(427498) -- Torrential Fury
+	-- Life Warden Gola dying stops Earthshaper Telu from casting Terrestrial Fury
+	self:StopBar(427509) -- Terrestrial Fury
 	self:INSTANCE_ENCOUNTER_ENGAGE_UNIT() -- no IEEU events on deaths
+end
+
+-- Earthshaper Telu
+function mod:ToxicBloom(args)
+	self:Message(args.spellId, "yellow", nil, CL.casting:format(args.spellName))
+	self:PlaySound(args.spellId, "warning")
+
+	toxicBloomCount = toxicBloomCount + 1
+
+	if lifeWardenGolaDefeated or toxicBloomCount % 2 == 0 then
+		self:CDBar(args.spellId, 17.0)
+	else
+		-- will be delayed by Terrestrial Fury
+		self:CDBar(args.spellId, 31.6)
+	end
+end
+
+function mod:TerrestrialFury(args)
+	toxicBloomCount = 1
+
+	self:Message(args.spellId, "cyan")
+	self:PlaySound(args.spellId, "long")
+
+	if not lifeWardenGolaDefeated then
+		-- this will not be cast again if Life Warden Gola has been defeated
+		self:CDBar(args.spellId, 52.1)
+	end
+
+	self:CDBar(427459, 31) -- Toxic Bloom
+end
+
+function mod:EarthshaperTeluDeath()
+	earthshaperTeluDefeated = true
+
+	self:StopBar(427459) -- Toxic Bloom
+	self:StopBar(427509) -- Terrestrial Fury
+	-- Earthshaper Telu dying stops Life Warden Gola from casting Torrential Fury and Revitalize
+	self:StopBar(427498) -- Torrential Fury
+	self:StopBar(168082) -- Revitalize
+end
+
+-- Dulhu
+function mod:NoxiousCharge(args)
+	self:Message(args.spellId, "purple")
+	self:PlaySound(args.spellId, "alert")
+	self:CastBar(args.spellId, 4)
+	self:CDBar(args.spellId, 17.0)
+end
+
+do
+	local prev = 0
+
+	function mod:NoxiousDischargeDamage(args)
+		local t = GetTime()
+		-- don't alert for tanks, this spawns instantly under them after Noxious Charge,
+		-- while other roles have the projectile's travel time to move away.
+		if t - prev > 1.5 and not self:Tank() and self:Me(args.destGUID) then
+			prev = t
+			self:PersonalMessage(args.spellId, "underyou")
+			self:PlaySound(args.spellId, "underyou", nil, args.destName)
+		end
+	end
+end
+
+function mod:DulhuDeath()
+	dulhuDefeated = true
+
+	self:StopBar(CL.cast:format(self:SpellName(427510))) -- Noxious Charge
+	self:StopBar(427510) -- Noxious Charge
+	-- Dulhu dying stops Life Warden Gola from casting Revitalize
+	self:StopBar(168082) -- Revitalize
 end

@@ -9,58 +9,44 @@ mod:RegisterEnableMob(82682)
 mod.engageId = 1751
 mod.respawnTime = 15
 
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 -- Initialization
 --
 
 function mod:GetOptions()
-	return {
-		168885, -- Parasitic Growth
-		{166492, "FLASH"}, -- Firebloom
-		166726, -- Frozen Rain
-		"stages",
+	return
+	{
+		427899, -- Cinderbolt Storm
+		428082, -- Glacial Fusion
+		428139, -- Spatial Compression
 	}
 end
 
 function mod:OnBossEnable()
-	self:Log("SPELL_CAST_START", "ParasiticGrowth", 168885)
-	self:Log("SPELL_AURA_APPLIED", "MagicSchools", 166475, 166476, 166477) -- Fire, Frost, Arcane
-	self:Log("SPELL_AURA_APPLIED", "FrozenRain", 166726)
-	self:Log("SPELL_CAST_SUCCESS", "Firebloom", 166492)
+	self:Log("SPELL_AURA_APPLIED", "FireAffinity", 166475)
+	self:Log("SPELL_AURA_APPLIED", "FrostAffinity", 166476)
+	self:Log("SPELL_AURA_APPLIED", "ArcaneAffinity", 166477)
 end
 
 function mod:OnEngage()
-	self:Message("stages", "Neutral", nil, 166475) -- Fire
-	self:CDBar(168885, 33) -- Parasitic Growth
+	self:CDBar(427899, 3.3) -- Cinderbolt Storm
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
 
-function mod:ParasiticGrowth(args)
-	self:Message(args.spellId, "Urgent", "Warning")
-	self:Bar(args.spellId, 34)
+function mod:FireAffinity()
+	self:StopBar(428082) -- Glacial Fusion
+	self:CDBar(428082, 21) -- Glacial Fusion
 end
 
-function mod:MagicSchools(args)
-	self:Message("stages", "Neutral", nil, args.spellId)
+function mod:FrostAffinity()
+	self:StopBar(428139) -- Spatial Compression
+	self:CDBar(428139, 21) -- Spatial Compression
 end
 
-do
-	local prev = 0
-	function mod:Firebloom(args)
-		local t = GetTime()
-		if t-prev > 7 then
-			prev = t
-			self:Message(args.spellId, "Important", "Alert")
-			self:Flash(args.spellId)
-		end
-	end
-end
-
-function mod:FrozenRain(args)
-	if self:Me(args.destGUID) then
-		self:Message(args.spellId, "Personal", "Alarm", CL.you:format(args.spellName))
-	end
+function mod:ArcaneAffinity()
+	self:StopBar(427899) -- Cinderbolt Storm
+	self:CDBar(427899, 21) -- Cinderbolt Storm
 end
