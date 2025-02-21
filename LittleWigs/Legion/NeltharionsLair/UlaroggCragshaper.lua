@@ -54,9 +54,10 @@ function mod:OnEngage()
 	StrikeCount = 0
 	BellowCount = 0
 	StanceCount = 0
+
 	self:Bar(198428, 18.5) -- Strike of the Mountain
 	self:CDBar(198496, 7) -- Sunder
-	self:CDBar(198564, self:Mythic() and 31 or 36.4) -- Stance of the Mountain
+	self:CDBar(198564, 60) -- Stance of the Mountain
 end
 
 --------------------------------------------------------------------------------
@@ -77,6 +78,7 @@ end
 function mod:StrikeOfTheMountain(args)
 	self:Message(args.spellId, "Important", "Alarm")
 	self:CDBar(198496, 4.5)
+
 	if StanceCount == 0 then
 		self:Bar(args.spellId, 18)
 	elseif StanceCount == 1 then
@@ -86,6 +88,7 @@ function mod:StrikeOfTheMountain(args)
 	elseif StanceCount == 3 then
 		self:Bar(args.spellId, StrikeCount % 2 == 0 and 18 or 20.5)
 	end
+
 	StrikeCount = StrikeCount + 1
 end
 
